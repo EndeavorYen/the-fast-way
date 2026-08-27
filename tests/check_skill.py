@@ -142,6 +142,14 @@ def main() -> int:
         and "gentle-grill-me" in body_l,
     )
     check(
+        "absence of a grill-log is not uncertainty",
+        "absence of" in body_l and "grill-log.jsonl" in body_l and "not uncertainty" in body_l,
+    )
+    check(
+        "do not grill only because a grill-log is missing",
+        "do not start gentle-grill-me only because a grill-log is missing" in body_l,
+    )
+    check(
         "steps aside only if this message named a leaf skill",
         "this user message named a leaf skill" in body_l
         and "did not invoke the-fast-way" in body_l,

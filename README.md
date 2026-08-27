@@ -34,16 +34,16 @@ After implement, do not auto-run musk-algorithm. Ten more last.
 
 ## Entry
 
-Do not always start at the grill.
+Grill only on a **stated** dilemma. A missing `.gentle-grill/grill-log.jsonl` is not a dilemma. A mature repo that just installed this skill is not a dilemma.
 
 | If they are here | Start at |
 | --- | --- |
-| Still choosing what to do | gentle-grill-me |
-| Requirements uncertain or contradictory | gentle-grill-me |
-| Intent settled, requirements not questioned | musk-algorithm |
+| They say they do not know what to build, success, or stakes | gentle-grill-me |
+| They say requirements are uncertain or contradictory | gentle-grill-me |
+| They ask whether it should exist / who owns it / delete first | musk-algorithm |
 | Keep + asked to implement | implement |
-| Thing exists; list or fix | just-ten-more / just-ten-more-loop |
-| "the fast way" / from idea to merge | first incomplete gate |
+| A product exists, or they want a list or fixes | just-ten-more / just-ten-more-loop |
+| `/the-fast-way` with no dilemma | just-ten-more-loop if a product exists; else musk-algorithm |
 
 If this message names one of those skills and does not invoke the-fast-way, that skill wins. This conductor steps aside.
 

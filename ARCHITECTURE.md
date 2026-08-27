@@ -41,7 +41,7 @@ Installed skill root (`the-fast-way/`): `SKILL.md`, `README.md`. Not installed: 
 trigger (/the-fast-way, the fast way, which skill, from idea to merge)
     -> load SKILL.md (agent)
     -> if this message named a leaf skill and did not invoke the-fast-way: stop; use that skill
-    -> pick earliest incomplete gate (entry table)
+    -> pick gate from positive signals (missing grill-log is not uncertainty)
     -> load that skill's SKILL.md; follow it until it stops
     -> re-enter entry table (do not wait for another /the-fast-way)
     -> musk-algorithm Decision drop: terminal stop
