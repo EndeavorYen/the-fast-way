@@ -42,6 +42,28 @@ def split_frontmatter(text: str) -> tuple[str, str]:
     return rest[: match.start()], rest[match.end() :]
 
 
+def description_text(fm: str) -> str:
+    lines = fm.splitlines()
+    for index, line in enumerate(lines):
+        match = re.match(r"description:\s*(.*?)\s*$", line)
+        if not match:
+            continue
+        value = match.group(1)
+        if value[:1] in (">", "|"):
+            block: list[str] = []
+            for cont in lines[index + 1 :]:
+                if cont.strip() and not cont[:1].isspace():
+                    break
+                block.append(cont.strip())
+            while block and not block[-1]:
+                block.pop()
+            return ("\n" if value[0] == "|" else " ").join(block)
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            return value[1:-1]
+        return value
+    return ""
+
+
 def first_occurrences_in_order(text: str, needles: tuple[str, ...]) -> bool:
     lower = text.lower()
     positions: list[int] = []
@@ -95,8 +117,8 @@ def _copied_equal(dest: Path, src: Path) -> bool:
     return dest.is_file() and src.is_file() and dest.read_bytes() == src.read_bytes()
 
 
-def main() -> int:
-    skill = read_text(SKILL_PATH) or ""
+def main(skill_path: Path = SKILL_PATH) -> int:
+    skill = read_text(skill_path) or ""
     readme = read_text(README_PATH) or ""
     fm, body = split_frontmatter(skill)
     body_l = body.lower()
@@ -118,6 +140,7 @@ def main() -> int:
         "description triggers on uncertain or contradictory requirements",
         "uncertain" in fm_l and "contradict" in fm_l,
     )
+    check("description at most 1024 characters", 0 < len(description_text(fm)) <= 1024)
 
     check("body names gentle-grill-me", "gentle-grill-me" in body_l)
     check("body names musk-algorithm", "musk-algorithm" in body_l)

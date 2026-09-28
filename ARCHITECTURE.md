@@ -32,7 +32,7 @@ Installed skill root (`the-fast-way/`): `SKILL.md`, `README.md`. Not installed: 
 - **SKILL.md** — When to run (explicit invocation always; step aside only if this message named a leaf skill and did not invoke the-fast-way), the entry table, default order, drop-stop, stay in charge until a terminal stop. SKILL.md, README.md, and install scripts are English. Runtime may still speak the user's language.
 - **README.md** — What it is, entry table, install table, `GROK_HOME` / `HERMES_HOME`.
 - **scripts/install.ps1**, **scripts/install.sh** — Copy `SKILL.md` and optional `README.md`. One positional arg: `grok | claude | cursor | hermes | all` (default `all`). Default also clones https://github.com/EndeavorYen/gentle-grill-me, musk-algorithm-skill, and just-ten-more, then runs each leaf installer. `-SkipLeaves` / `--skip-leaves` / `THE_FAST_WAY_SKIP_LEAVES=1` skips clones. Leaf SKILL files are not stored in this repo.
-- **tests/check_skill.py** — Named PASS/FAIL checks: frontmatter, entry/order/drop/stay-in-charge bars, English body, installers, LF on `install.sh`, git mode `100755`, README paths, gitignore, tempdir install (never the real home).
+- **tests/check_skill.py** — Named PASS/FAIL checks: frontmatter (parsed description at most 1024 characters), entry/order/drop/stay-in-charge bars, English body, installers, LF on `install.sh`, git mode `100755`, README paths, gitignore, tempdir install (never the real home).
 - **tests/test_skill_contract.py** — `pytest` exec of `check_skill.py`; assert returncode 0.
 
 ## Data flow
