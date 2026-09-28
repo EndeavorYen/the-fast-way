@@ -55,6 +55,13 @@ def test_description_of_1024_passes(tmp_path: Path, capsys: pytest.CaptureFixtur
         ("description: 'quoted value'\n", "quoted value"),
         ('description: "quoted value"\n', "quoted value"),
         ("description: plain value\n", "plain value"),
+        ("description: plain value # comment\n", "plain value"),
+        ("description: aaa\n  bbb\nname: x", "aaa bbb"),
+        ('description: "aaa\n  bbb"\nname: x', "aaa bbb"),
+        ("description: 'it''s'\n", "it's"),
+        ("description:\n  aaa\n  bbb\n", "aaa bbb"),
+        ("description: |\n  aaa\n    bbb\n", "aaa\n  bbb"),
+        ("description: >\n  aaa\n\n  bbb\n", "aaa\nbbb"),
     ],
 )
 def test_description_text_parses_scalar_styles(frontmatter: str, expected: str) -> None:

@@ -49,16 +49,35 @@ def description_text(fm: str) -> str:
         if not match:
             continue
         value = match.group(1)
+        block: list[str] = []
+        for cont in lines[index + 1 :]:
+            if cont.strip() and not cont[:1].isspace():
+                break
+            block.append(cont.rstrip())
+        while block and not block[-1]:
+            block.pop()
+        # Block scalars drop the clip-chomped final newline; the limit counts content.
         if value[:1] in (">", "|"):
-            block: list[str] = []
-            for cont in lines[index + 1 :]:
-                if cont.strip() and not cont[:1].isspace():
-                    break
-                block.append(cont.strip())
-            while block and not block[-1]:
-                block.pop()
-            return ("\n" if value[0] == "|" else " ").join(block)
-        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            indent = min((len(b) - len(b.lstrip()) for b in block if b), default=0)
+            body = [b[indent:] for b in block]
+            if value[0] == "|":
+                return "\n".join(body)
+            text = ""
+            after_break = True
+            for part in body:
+                if not part:
+                    text += "\n"
+                    after_break = True
+                else:
+                    text += ("" if after_break else " ") + part
+                    after_break = False
+            return text
+        if value[:1] not in ("'", '"'):
+            value = re.sub(r"\s+#.*$", "", value)
+        value = " ".join([value, *(b.strip() for b in block if b)]).strip()
+        if len(value) >= 2 and value[0] == value[-1] == "'":
+            return value[1:-1].replace("''", "'")
+        if len(value) >= 2 and value[0] == value[-1] == '"':
             return value[1:-1]
         return value
     return ""
